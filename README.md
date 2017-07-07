@@ -1,6 +1,12 @@
 # StatusLayout-master
 Activity或Fragment中切换不同状态页：有数据、无数据、加载中、加载失败、网络异常、网络不佳
 
+## 效果演示 ##
+#### 替换模式 ####
+![](/screenshots/替换模式.gif)
+#### 覆盖模式 ####
+![](/screenshots/覆盖模式.gif)
+
 ## 开始使用 ##
 
 #### 在Activity/Fragment中创建状态布局管理器： ####
