@@ -63,20 +63,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void creatStatusLayoutManager() {
         statusLayoutManager = StatusLayoutManager.newBuilder(this)
-                .setContentLayout(tvContent)
-                .setEmptyLayout(R.layout.layout_empty)
-                .setErrorLayout(R.layout.layout_error)
-                .setLoadingLayout(R.layout.layout_loading)
-                .setNetWorkErrorLayout(R.layout.layout_no_network)
-                .setNetWorkPoorLayout(R.layout.layout_bad_network)
-                .setRetryViewId(R.id.action_retry)
-                .setUseOverlapStatusLayoutHelper(false)
-                .setOnStatusLayoutChangedListener(new OnStatusLayoutChangedListener() {
+                .setContentLayout(tvContent)                        // 设置内容布局
+                .setEmptyLayout(R.layout.layout_empty)              // 设置无数据布局
+                .setLoadingLayout(R.layout.layout_loading)          // 设置加载中布局
+                .setErrorLayout(R.layout.layout_error)              // 设置加载异常布局
+                .setNetWorkErrorLayout(R.layout.layout_no_network)  // 设置网络异常布局
+                .setNetWorkPoorLayout(R.layout.layout_bad_network)  // 设置网络不佳布局
+                .setRetryViewId(R.id.action_retry)                  // 设置各种布局公用的重试操作控件ID
+                .setUseOverlapStatusLayoutHelper(false)             // 设置是否使用覆盖式页面切换辅助类
+                .setOnStatusLayoutChangedListener(new OnStatusLayoutChangedListener() { // 设置状态布局改变监听
                     @Override
                     public void onStatusLayoutChanged(View currentLayout) {
 
                     }
-                }).setOnRetryActionListener(new OnRetryActionListener() {
+                })
+                .setOnRetryActionListener(new OnRetryActionListener() { // 设置重试操作监听
                     @Override
                     public void onRetryAction(View view) {
                         showToast("开始加载...");
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             }
                         }, 1500);
                     }
-                }).build();
+                }).build();                                         // 构建StatusLayoutManager
     }
 
     @Override
