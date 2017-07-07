@@ -16,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:text="注：【加载失败】和【网络不佳】的情况可以【重试】重新加载"
         android:textColor="@android:color/holo_red_light" />
 
