@@ -19,6 +19,29 @@
         android:text="注：【加载失败】和【网络不佳】的情况可以【重试】重新加载"
         android:textColor="@android:color/holo_red_light" />
 
+    <RadioGroup
+        android:id="@+id/rg_mode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_replace"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="替换模式" />
+
+        <RadioButton
+            android:id="@+id/rb_overlap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="覆盖模式" />
+    </RadioGroup>
+
     <TextView
         android:id="@+id/content"
         android:layout_width="match_parent"
@@ -27,5 +50,5 @@
         android:text="这里是内容区域"
         android:textColor="@android:color/black"
         android:textSize="30sp" />
-    
+
 </LinearLayout>
