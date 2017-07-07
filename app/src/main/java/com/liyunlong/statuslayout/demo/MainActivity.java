@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                             .build();
                 } else if (checkedId == R.id.rb_overlap) {
                     statusLayoutManager = statusLayoutManager.newBuilder()
-                            .setUseOverlapStatusLayoutHelper(true)
+                            .setUseOverlapStatusLayoutHelper(true)  // 设置是否使用覆盖式页面切换辅助类
                             .build();
                 }
                 updateStatusLayout(currentPosition); // 还原当前状态
@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void creatStatusLayoutManager() {
+        statusLayoutManager = statusLayoutManager.newBuilder()
+                .setUseOverlapStatusLayoutHelper(true)              // 设置是否使用覆盖式页面切换辅助类
+                .build();
         statusLayoutManager = StatusLayoutManager.newBuilder(this)
                 .setContentLayout(tvContent)                        // 设置内容布局
                 .setEmptyLayout(R.layout.layout_empty)              // 设置无数据布局
