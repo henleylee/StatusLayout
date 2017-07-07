@@ -6,17 +6,17 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 /**
- * 有数据、无数据、加载中、加载失败、网络异常、网络不佳页面切换辅助类(覆盖)
+ * 有数据、无数据、加载中、加载失败、网络异常、网络不佳页面切换辅助类(覆盖模式)
  *
  * @author liyunlong
  * @date 2017/3/6 15:45
  */
-public class OverlapStatusLayoutHelper implements IStatusLayoutHelper {
+final class OverlapStatusLayoutHelper implements IStatusLayoutHelper {
 
     private View contentLayout;  // 显示数据的View
     private IStatusLayoutHelper helper; // 切换不同视图的帮助类
 
-    public OverlapStatusLayoutHelper(View contentLayout) {
+    OverlapStatusLayoutHelper(View contentLayout) {
         this.contentLayout = contentLayout; // 显示数据的View
         ViewGroup parent; // 找到父View
         if (this.contentLayout.getParent() != null) {

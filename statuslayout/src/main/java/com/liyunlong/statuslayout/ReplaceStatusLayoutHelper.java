@@ -5,12 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * 有数据、无数据、加载中、加载失败、网络异常、网络不佳页面切换辅助类(替换)
+ * 有数据、无数据、加载中、加载失败、网络异常、网络不佳页面切换辅助类(替换模式)
  *
  * @author liyunlong
  * @date 2017/3/6 14:30
  */
-public class ReplaceStatusLayoutHelper implements IStatusLayoutHelper {
+final class ReplaceStatusLayoutHelper implements IStatusLayoutHelper {
 
     private View contentLayout; // 显示数据的View
     private ViewGroup parentLayout; // 显示数据的View的父View
@@ -18,7 +18,7 @@ public class ReplaceStatusLayoutHelper implements IStatusLayoutHelper {
     private ViewGroup.LayoutParams params; // 显示数据的View的参数信息
     private View currentLayout; // 当前显示的View
 
-    public ReplaceStatusLayoutHelper(View contentLayout) {
+    ReplaceStatusLayoutHelper(View contentLayout) {
         this.contentLayout = contentLayout; // 显示数据的View
         initContentLayoutParams(); // 初始化参数信息
     }

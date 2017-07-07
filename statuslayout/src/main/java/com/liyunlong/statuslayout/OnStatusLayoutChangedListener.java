@@ -10,5 +10,10 @@ import android.view.View;
  */
 public interface OnStatusLayoutChangedListener {
 
+    /**
+     * 当状态布局改变时调用该方法
+     *
+     * @param currentLayout 当前显示的布局
+     */
     void onStatusLayoutChanged(View currentLayout);
 }

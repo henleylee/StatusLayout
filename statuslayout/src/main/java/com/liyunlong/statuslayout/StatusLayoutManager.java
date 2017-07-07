@@ -16,8 +16,8 @@ public class StatusLayoutManager implements IStatusLayoutManager {
 
     private Context context;
     private View contentLayout;
-    private View emptyDataLayout; // 无数据布局
-    private int emptyDataRetryViewId; // 无数据重试视图的ID
+    private View emptyLayout; // 无数据布局
+    private int emptyRetryViewId; // 无数据重试视图的ID
     private View loadingLayout; // 加载中布局
     private View errorLayout; // 加载异常布局
     private int errorRetryViewId; // 加载异常重试视图的ID
@@ -27,7 +27,7 @@ public class StatusLayoutManager implements IStatusLayoutManager {
     private int netWorkPoorRetryViewId; // 网络不佳重试视图的ID
     private int retryViewId; // 重试视图的ID
     private boolean useOverlapStatusLayoutHelper; // 是否使用覆盖式页面切换辅助类
-    private OnRetryListener onRetryListener; // 重试监听器
+    private OnRetryActionListener onRetryActionListener; // 重试监听器
     private OnStatusLayoutChangedListener statusLayoutChangedListener; // 状态布局改变监听
     private IStatusLayoutHelper helper; // 切换不同视图的帮助类
 
@@ -35,11 +35,15 @@ public class StatusLayoutManager implements IStatusLayoutManager {
         return new Builder(context);
     }
 
+    public Builder newBuilder() {
+        return new Builder(this);
+    }
+
     private StatusLayoutManager(Builder builder) {
         this.context = builder.context;
         this.contentLayout = builder.contentLayout;
-        this.emptyDataLayout = builder.emptyDataLayout;
-        this.emptyDataRetryViewId = builder.emptyDataRetryViewId;
+        this.emptyLayout = builder.emptyLayout;
+        this.emptyRetryViewId = builder.emptyRetryViewId;
         this.loadingLayout = builder.loadingLayout;
         this.errorLayout = builder.errorLayout;
         this.errorRetryViewId = builder.errorRetryViewId;
@@ -48,13 +52,18 @@ public class StatusLayoutManager implements IStatusLayoutManager {
         this.netWorkPoorLayout = builder.netWorkPoorLayout;
         this.netWorkPoorRetryViewId = builder.netWorkPoorRetryViewId;
         this.retryViewId = builder.retryViewId;
-        this.onRetryListener = builder.onRetryListener;
+        this.onRetryActionListener = builder.onRetryActionListener;
         this.statusLayoutChangedListener = builder.statusLayoutChangedListener;
         this.useOverlapStatusLayoutHelper = builder.useOverlapStatusLayoutHelper;
-        if (useOverlapStatusLayoutHelper) {
-            this.helper = new OverlapStatusLayoutHelper(contentLayout);
+
+        initStatusLayoutHelper(); // 初始化StatusLayoutHelper
+    }
+
+    private void initStatusLayoutHelper() {
+        if (useOverlapStatusLayoutHelper) { // 判断是否使用覆盖式页面切换辅助类
+            this.helper = new OverlapStatusLayoutHelper(contentLayout); // 覆盖模式
         } else {
-            this.helper = new ReplaceStatusLayoutHelper(contentLayout);
+            this.helper = new ReplaceStatusLayoutHelper(contentLayout); // 替换模式
         }
     }
 
@@ -75,7 +84,7 @@ public class StatusLayoutManager implements IStatusLayoutManager {
 
     @Override
     public View getEmptyLayout() {
-        return emptyDataLayout;
+        return emptyLayout;
     }
 
     @Override
@@ -105,8 +114,8 @@ public class StatusLayoutManager implements IStatusLayoutManager {
 
     @Override
     public void showEmptyLayout() {
-        retryLoad(emptyDataLayout, emptyDataRetryViewId);
-        showStatusLayout(emptyDataLayout);
+        retryLoad(emptyLayout, emptyRetryViewId);
+        showStatusLayout(emptyLayout);
     }
 
     @Override
@@ -156,7 +165,7 @@ public class StatusLayoutManager implements IStatusLayoutManager {
 
     @Override
     public void releaseStatusLayouts() {
-        emptyDataLayout = null;
+        emptyLayout = null;
         loadingLayout = null;
         errorLayout = null;
         netWorkErrorLayout = null;
@@ -174,13 +183,13 @@ public class StatusLayoutManager implements IStatusLayoutManager {
             return;
         }
         View retryView = view.findViewById(id != 0 ? id : retryViewId);
-        if (retryView == null || onRetryListener == null) {
+        if (retryView == null || onRetryActionListener == null) {
             return;
         }
         retryView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onRetryListener.onRetry(v);
+                onRetryActionListener.onRetryAction(v);
             }
         });
     }
@@ -189,8 +198,8 @@ public class StatusLayoutManager implements IStatusLayoutManager {
 
         private Context context;
         private View contentLayout; // 内容布局
-        private View emptyDataLayout; // 无数据布局
-        private int emptyDataRetryViewId; // 无数据重试视图的ID
+        private View emptyLayout; // 无数据布局
+        private int emptyRetryViewId; // 无数据重试视图的ID
         private View loadingLayout; // 加载中布局
         private View errorLayout; // 加载异常布局
         private int errorRetryViewId; // 加载异常重试视图的ID
@@ -200,80 +209,228 @@ public class StatusLayoutManager implements IStatusLayoutManager {
         private int netWorkPoorRetryViewId; // 网络不佳重试视图的ID
         private int retryViewId; // 重试视图的ID
         private boolean useOverlapStatusLayoutHelper; // 是否使用覆盖式页面切换辅助类
-        private OnRetryListener onRetryListener; // 重试监听器
+        private OnRetryActionListener onRetryActionListener; // 重试监听器
         private OnStatusLayoutChangedListener statusLayoutChangedListener; // 状态布局改变监听
 
-        public Builder(Context context) {
+        Builder(Context context) {
             this.context = context;
         }
 
+        Builder(StatusLayoutManager builder) {
+            this.context = builder.context;
+            this.contentLayout = builder.contentLayout;
+            this.emptyLayout = builder.emptyLayout;
+            this.emptyRetryViewId = builder.emptyRetryViewId;
+            this.loadingLayout = builder.loadingLayout;
+            this.errorLayout = builder.errorLayout;
+            this.errorRetryViewId = builder.errorRetryViewId;
+            this.netWorkErrorLayout = builder.netWorkErrorLayout;
+            this.netWorkErrorRetryViewId = builder.netWorkErrorRetryViewId;
+            this.netWorkPoorLayout = builder.netWorkPoorLayout;
+            this.netWorkPoorRetryViewId = builder.netWorkPoorRetryViewId;
+            this.retryViewId = builder.retryViewId;
+            this.onRetryActionListener = builder.onRetryActionListener;
+            this.statusLayoutChangedListener = builder.statusLayoutChangedListener;
+            this.useOverlapStatusLayoutHelper = builder.useOverlapStatusLayoutHelper;
+        }
+
+        /**
+         * 设置内容布局
+         *
+         * @param contentLayout 内容布局
+         */
         public Builder setContentLayout(View contentLayout) {
             this.contentLayout = contentLayout;
             return this;
         }
 
-        public Builder setEmptyLayout(@LayoutRes int noDataViewId) {
-            this.emptyDataLayout = inflate(noDataViewId);
+        /**
+         * 设置内容布局资源ID
+         *
+         * @param contentLayoutResId 内容布局资源ID
+         */
+        public Builder setContentLayout(@LayoutRes int contentLayoutResId) {
+            this.contentLayout = inflate(contentLayoutResId);
             return this;
         }
 
+        /**
+         * 设置无数据布局
+         *
+         * @param emptyLayout 无数据布局
+         */
+        public Builder setEmptyLayout(View emptyLayout) {
+            this.emptyLayout = emptyLayout;
+            return this;
+        }
+
+        /**
+         * 设置无数据布局资源ID
+         *
+         * @param emptyLayoutResId 无数据布局资源ID
+         */
+        public Builder setEmptyLayout(@LayoutRes int emptyLayoutResId) {
+            this.emptyLayout = inflate(emptyLayoutResId);
+            return this;
+        }
+
+        /**
+         * 设置加载中布局
+         *
+         * @param loadingLayout 加载中布局
+         */
+        public Builder setLoadingLayout(View loadingLayout) {
+            this.loadingLayout = loadingLayout;
+            return this;
+        }
+
+        /**
+         * 设置加载中布局资源ID
+         *
+         * @param loadingLayoutResId 加载中布局资源ID
+         */
         public Builder setLoadingLayout(@LayoutRes int loadingLayoutResId) {
             this.loadingLayout = inflate(loadingLayoutResId);
             return this;
         }
 
-        public Builder setErrorLayout(@LayoutRes int errorViewId) {
-            this.errorLayout = inflate(errorViewId);
+        /**
+         * 设置加载异常布局
+         *
+         * @param errorLayout 加载异常布局
+         */
+        public Builder setErrorLayout(View errorLayout) {
+            this.errorLayout = errorLayout;
             return this;
         }
 
-        public Builder setNetWorkErrorLayout(@LayoutRes int newWorkErrorId) {
-            this.netWorkErrorLayout = inflate(newWorkErrorId);
+        /**
+         * 设置加载异常布局资源ID
+         *
+         * @param errorLayoutResId 加载异常布局资源ID
+         */
+        public Builder setErrorLayout(@LayoutRes int errorLayoutResId) {
+            this.errorLayout = inflate(errorLayoutResId);
             return this;
         }
 
-        public Builder setNetWorkPoorLayout(@LayoutRes int newWorkPoorId) {
-            this.netWorkPoorLayout = inflate(newWorkPoorId);
+        /**
+         * 设置网络异常布局
+         *
+         * @param netWorkErrorLayout 网络异常布局
+         */
+        public Builder setNetWorkErrorLayout(View netWorkErrorLayout) {
+            this.netWorkErrorLayout = netWorkErrorLayout;
             return this;
         }
 
-        public Builder setEmptyRetryViewId(@IdRes int emptyDataRetryViewId) {
-            this.emptyDataRetryViewId = emptyDataRetryViewId;
+        /**
+         * 设置网络异常布局资源ID
+         *
+         * @param newWorkErrorLayoutResId 网络异常布局资源ID
+         */
+        public Builder setNetWorkErrorLayout(@LayoutRes int newWorkErrorLayoutResId) {
+            this.netWorkErrorLayout = inflate(newWorkErrorLayoutResId);
             return this;
         }
 
+        /**
+         * 设置网络不佳布局
+         *
+         * @param netWorkPoorLayout 网络不佳布局
+         */
+        public Builder setNetWorkPoorLayout(View netWorkPoorLayout) {
+            this.netWorkPoorLayout = netWorkPoorLayout;
+            return this;
+        }
+
+        /**
+         * 设置网络不佳布局资源ID
+         *
+         * @param newWorkPoorLayoutResId 网络不佳布局资源ID
+         */
+        public Builder setNetWorkPoorLayout(@LayoutRes int newWorkPoorLayoutResId) {
+            this.netWorkPoorLayout = inflate(newWorkPoorLayoutResId);
+            return this;
+        }
+
+        /**
+         * 设置无数据布局重试操作控件ID
+         *
+         * @param emptyRetryViewId 无数据布局重试操作控件ID
+         */
+        public Builder setEmptyRetryViewId(@IdRes int emptyRetryViewId) {
+            this.emptyRetryViewId = emptyRetryViewId;
+            return this;
+        }
+
+        /**
+         * 设置加载异常布局重试操作控件ID
+         *
+         * @param errorRetryViewId 加载异常布局重试操作控件ID
+         */
         public Builder setErrorRetryViewId(@IdRes int errorRetryViewId) {
             this.errorRetryViewId = errorRetryViewId;
             return this;
         }
 
+        /**
+         * 设置网络异常布局重试操作控件ID
+         *
+         * @param netWorkErrorRetryViewId 网络异常布局重试操作控件ID
+         */
         public Builder setNetWorkErrorRetryViewId(@IdRes int netWorkErrorRetryViewId) {
             this.netWorkErrorRetryViewId = netWorkErrorRetryViewId;
             return this;
         }
 
+        /**
+         * 设置网络不佳布局重试操作控件ID
+         *
+         * @param netWorkPoorRetryViewId 网络不佳布局重试操作控件ID
+         */
         public Builder setNetWorkPoorRetryViewId(@IdRes int netWorkPoorRetryViewId) {
             this.netWorkPoorRetryViewId = netWorkPoorRetryViewId;
             return this;
         }
 
+        /**
+         * 设置各种布局公用的重试操作控件ID
+         *
+         * @param retryViewId 各种布局公用的重试操作控件ID
+         */
         public Builder setRetryViewId(@IdRes int retryViewId) {
             this.retryViewId = retryViewId;
             return this;
         }
 
+        /**
+         * 设置是否使用覆盖式页面切换辅助类(默认为false)
+         *
+         * @param useOverlapStatusLayoutHelper 是否使用覆盖式页面切换辅助类
+         */
         public Builder setUseOverlapStatusLayoutHelper(boolean useOverlapStatusLayoutHelper) {
             this.useOverlapStatusLayoutHelper = useOverlapStatusLayoutHelper;
             return this;
         }
 
-        public Builder setOnRetryListener(OnRetryListener onRetryListener) {
-            this.onRetryListener = onRetryListener;
+        /**
+         * 设置重试操作监听
+         *
+         * @param onRetryActionListener 重试监听
+         */
+        public Builder setOnRetryActionListener(OnRetryActionListener onRetryActionListener) {
+            this.onRetryActionListener = onRetryActionListener;
             return this;
         }
 
-        public Builder setOnStatusLayoutChangedListener(OnStatusLayoutChangedListener onShowHideViewListener) {
-            this.statusLayoutChangedListener = onShowHideViewListener;
+        /**
+         * 设置状态布局改变监听
+         *
+         * @param statusLayoutChangedListener 状态布局改变监听
+         */
+        public Builder setOnStatusLayoutChangedListener(OnStatusLayoutChangedListener statusLayoutChangedListener) {
+            this.statusLayoutChangedListener = statusLayoutChangedListener;
             return this;
         }
 
@@ -281,8 +438,13 @@ public class StatusLayoutManager implements IStatusLayoutManager {
             return new StatusLayoutManager(this);
         }
 
-        private View inflate(@LayoutRes int layoutId) {
-            return LayoutInflater.from(context).inflate(layoutId, null);
+        /**
+         * 将指定布局解析为View
+         *
+         * @param resource 布局资源ID
+         */
+        private View inflate(@LayoutRes int resource) {
+            return LayoutInflater.from(context).inflate(resource, null);
         }
     }
 
