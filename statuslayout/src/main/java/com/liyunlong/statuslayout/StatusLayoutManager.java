@@ -211,6 +211,7 @@ public class StatusLayoutManager implements IStatusLayoutManager {
         private boolean useOverlapStatusLayoutHelper; // 是否使用覆盖式页面切换辅助类
         private OnRetryActionListener onRetryActionListener; // 重试监听器
         private OnStatusLayoutChangedListener statusLayoutChangedListener; // 状态布局改变监听
+        private LayoutInflater inflater;
 
         Builder(Context context) {
             this.context = context;
@@ -444,7 +445,10 @@ public class StatusLayoutManager implements IStatusLayoutManager {
          * @param resource 布局资源ID
          */
         private View inflate(@LayoutRes int resource) {
-            return LayoutInflater.from(context).inflate(resource, null);
+            if (inflater == null) {
+                inflater = LayoutInflater.from(context);
+            }
+            return inflater.inflate(resource, null);
         }
     }
 
