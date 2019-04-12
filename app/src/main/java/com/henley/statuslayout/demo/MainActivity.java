@@ -1,4 +1,4 @@
-package com.liyunlong.statuslayout.demo;
+package com.henley.statuslayout.demo;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,9 +14,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.liyunlong.statuslayout.OnRetryActionListener;
-import com.liyunlong.statuslayout.OnStatusLayoutChangedListener;
-import com.liyunlong.statuslayout.StatusLayoutManager;
+import com.henley.statuslayout.OnRetryActionListener;
+import com.henley.statuslayout.OnStatusLayoutChangedListener;
+import com.henley.statuslayout.StatusLayoutManager;
 
 import java.util.Arrays;
 

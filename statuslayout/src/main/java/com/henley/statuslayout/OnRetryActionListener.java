@@ -1,11 +1,11 @@
-package com.liyunlong.statuslayout;
+package com.henley.statuslayout;
 
 import android.view.View;
 
 /**
  * 重试操作监听器
  *
- * @author liyunlong
+ * @author Henley
  * @date 2017/3/6 14:24
  */
 public interface OnRetryActionListener {

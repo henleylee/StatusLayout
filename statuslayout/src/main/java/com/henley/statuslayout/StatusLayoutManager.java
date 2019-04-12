@@ -1,4 +1,4 @@
-package com.liyunlong.statuslayout;
+package com.henley.statuslayout;
 
 import android.content.Context;
 import android.support.annotation.IdRes;
@@ -9,7 +9,7 @@ import android.view.View;
 /**
  * 有数据、无数据、加载中、加载失败、网络异常、网络不佳页面切换管理器
  *
- * @author liyunlong
+ * @author Henley
  * @date 2017/3/6 14:21
  */
 public class StatusLayoutManager implements IStatusLayoutManager {

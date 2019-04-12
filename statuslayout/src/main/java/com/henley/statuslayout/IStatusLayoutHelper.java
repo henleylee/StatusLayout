@@ -1,4 +1,4 @@
-package com.liyunlong.statuslayout;
+package com.henley.statuslayout;
 
 import android.content.Context;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 /**
  * 状态布局页面切换辅助类接口
  *
- * @author liyunlong
+ * @author Henley
  * @date 2017/3/6 14:28
  */
 interface IStatusLayoutHelper {

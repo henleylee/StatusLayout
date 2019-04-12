@@ -1,4 +1,4 @@
-package com.liyunlong.statuslayout;
+package com.henley.statuslayout;
 
 import android.content.Context;
 import android.view.View;
@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 /**
  * 有数据、无数据、加载中、加载失败、网络异常、网络不佳页面切换辅助类(覆盖模式)
  *
- * @author liyunlong
+ * @author Henley
  * @date 2017/3/6 15:45
  */
 final class OverlapStatusLayoutHelper implements IStatusLayoutHelper {

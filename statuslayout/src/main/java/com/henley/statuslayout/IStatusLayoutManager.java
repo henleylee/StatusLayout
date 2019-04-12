@@ -1,4 +1,4 @@
-package com.liyunlong.statuslayout;
+package com.henley.statuslayout;
 
 import android.content.Context;
 import android.view.View;
@@ -6,7 +6,7 @@ import android.view.View;
 /**
  * 状态布局页面切换管理器接口
  *
- * @author liyunlong
+ * @author Henley
  * @date 2017/3/6 15:49
  */
 interface IStatusLayoutManager {
