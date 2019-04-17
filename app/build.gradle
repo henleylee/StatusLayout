@@ -42,5 +42,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$supportVersion"
-    implementation project(':statuslayout')
+//    implementation project(':statuslayout')
+    implementation 'com.henley.statuslayout:statuslayout:1.0.0'
 }
