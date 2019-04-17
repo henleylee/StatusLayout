@@ -7,7 +7,15 @@ Activity或Fragment中切换不同状态页：有数据、无数据、加载中�
 #### 覆盖模式： ####
 ![](/screenshots/覆盖模式.gif)
 
-## APK Demo ##
+## Download ##
+### Gradle ###
+```gradle
+dependencies {
+    implementation 'com.henley.statuslayout:statuslayout:1.0.0'
+}
+```
+
+### APK Demo ###
 
 下载 [APK-Demo](https://github.com/HenleyLee/StatusLayout/raw/master/app/app-release.apk)
 
