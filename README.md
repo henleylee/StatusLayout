@@ -11,7 +11,7 @@ Activity或Fragment中切换不同状态页：有数据、无数据、加载中�
 ### Gradle ###
 ```gradle
 dependencies {
-    implementation 'com.henley.statuslayout:statuslayout:1.0.0'
+    implementation 'com.henley.android:statuslayout:1.0.0'
 }
 ```
 
