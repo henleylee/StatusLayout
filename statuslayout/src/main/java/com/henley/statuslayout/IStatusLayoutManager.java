@@ -54,42 +54,42 @@ interface IStatusLayoutManager {
     /**
      * 显示内容View
      */
-    void showContentLayout();
+    boolean showContentLayout();
 
     /**
      * 显示无数据View
      */
-    void showEmptyLayout();
+    boolean showEmptyLayout();
 
     /**
      * 显示加载中View
      */
-    void showLoadingLayout();
+    boolean showLoadingLayout();
 
     /**
      * 显示加载失败View
      */
-    void showErrorLayout();
+    boolean showErrorLayout();
 
     /**
      * 显示无网络View
      */
-    void showNetworkErrorLayout();
+    boolean showNetworkErrorLayout();
 
     /**
      * 显示网络不佳View
      */
-    void showNetworkPoorLayout();
+    boolean showNetworkPoorLayout();
 
     /**
      * 恢复显示有数据View
      */
-    void restoreLayout();
+    boolean restoreLayout();
 
     /**
      * 切换要显示的View
      */
-    void showStatusLayout(View view);
+    boolean showStatusLayout(View view);
 
     /**
      * 设置IStatusLayoutHelper

@@ -22,7 +22,7 @@ final class OverlapStatusLayoutHelper implements IStatusLayoutHelper {
         if (this.contentLayout.getParent() != null) {
             parent = (ViewGroup) this.contentLayout.getParent();
         } else {
-            parent = (ViewGroup) this.contentLayout.getRootView().findViewById(android.R.id.content);
+            parent = this.contentLayout.getRootView().findViewById(android.R.id.content);
         }
 
         int childIndex = 0; // 要显示的View在父View中的位置
@@ -71,13 +71,12 @@ final class OverlapStatusLayoutHelper implements IStatusLayoutHelper {
 
     @Override
     public boolean showStatusLayout(View view) {
-        helper.showStatusLayout(view);
-        return false;
+        return helper.showStatusLayout(view);
     }
 
     @Override
     public boolean restoreLayout() {
-        helper.restoreLayout();
-        return false;
+        return helper.restoreLayout();
     }
+
 }

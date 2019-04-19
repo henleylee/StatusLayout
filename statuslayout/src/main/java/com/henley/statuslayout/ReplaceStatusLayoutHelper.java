@@ -31,7 +31,7 @@ final class ReplaceStatusLayoutHelper implements IStatusLayoutHelper {
         if (contentLayout.getParent() != null) { // 获取显示数据的View的父View
             this.parentLayout = (ViewGroup) contentLayout.getParent();
         } else {
-            this.parentLayout = (ViewGroup) contentLayout.getRootView().findViewById(android.R.id.content);
+            this.parentLayout = contentLayout.getRootView().findViewById(android.R.id.content);
         }
         int count = parentLayout.getChildCount();
         for (int index = 0; index < count; index++) { // 遍历显示数据的View的父View的Child
@@ -53,10 +53,12 @@ final class ReplaceStatusLayoutHelper implements IStatusLayoutHelper {
         return parentLayout;
     }
 
+    @Override
     public View getContentLayout() {
         return contentLayout;
     }
 
+    @Override
     public View getCurrentLayout() {
         return currentLayout;
     }

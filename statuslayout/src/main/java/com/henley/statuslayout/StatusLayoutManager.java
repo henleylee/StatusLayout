@@ -108,57 +108,61 @@ public class StatusLayoutManager implements IStatusLayoutManager {
     }
 
     @Override
-    public void showContentLayout() {
-        restoreLayout();
+    public boolean showContentLayout() {
+        return restoreLayout();
     }
 
     @Override
-    public void showEmptyLayout() {
+    public boolean showEmptyLayout() {
         retryLoad(emptyLayout, emptyRetryViewId);
-        showStatusLayout(emptyLayout);
+        return showStatusLayout(emptyLayout);
     }
 
     @Override
-    public void showLoadingLayout() {
-        showStatusLayout(loadingLayout);
+    public boolean showLoadingLayout() {
+        return showStatusLayout(loadingLayout);
     }
 
     @Override
-    public void showErrorLayout() {
+    public boolean showErrorLayout() {
         retryLoad(errorLayout, errorRetryViewId);
-        showStatusLayout(errorLayout);
+        return showStatusLayout(errorLayout);
     }
 
     @Override
-    public void showNetworkErrorLayout() {
+    public boolean showNetworkErrorLayout() {
         retryLoad(netWorkErrorLayout, netWorkErrorRetryViewId);
-        showStatusLayout(netWorkErrorLayout);
+        return showStatusLayout(netWorkErrorLayout);
     }
 
     @Override
-    public void showNetworkPoorLayout() {
+    public boolean showNetworkPoorLayout() {
         retryLoad(netWorkPoorLayout, netWorkPoorRetryViewId);
-        showStatusLayout(netWorkPoorLayout);
+        return showStatusLayout(netWorkPoorLayout);
     }
 
     @Override
-    public void restoreLayout() {
-        if (helper.restoreLayout() && statusLayoutChangedListener != null) {
+    public boolean restoreLayout() {
+        boolean result = helper.restoreLayout();
+        if (result && statusLayoutChangedListener != null) {
             statusLayoutChangedListener.onStatusLayoutChanged(getCurrentLayout());
         }
+        return result;
     }
 
     @Override
-    public void showStatusLayout(View view) {
-        if (helper.showStatusLayout(view) && statusLayoutChangedListener != null) {
+    public boolean showStatusLayout(View view) {
+        boolean result = helper.showStatusLayout(view);
+        if (result && statusLayoutChangedListener != null) {
             statusLayoutChangedListener.onStatusLayoutChanged(getCurrentLayout());
         }
+        return result;
     }
 
     @Override
     public void setStatusLayoutHelper(IStatusLayoutHelper helper) {
         if (helper == null) {
-            throw new IllegalArgumentException("The helper con not be null.");
+            throw new IllegalArgumentException("The helper can not be null.");
         }
         this.helper = helper;
     }
@@ -179,11 +183,11 @@ public class StatusLayoutManager implements IStatusLayoutManager {
      * @param id   重试View的ID
      */
     private void retryLoad(View view, @IdRes int id) {
-        if (view == null) {
+        if (view == null || onRetryActionListener == null) {
             return;
         }
         View retryView = view.findViewById(id != 0 ? id : retryViewId);
-        if (retryView == null || onRetryActionListener == null) {
+        if (retryView == null) {
             return;
         }
         retryView.setOnClickListener(new View.OnClickListener() {
